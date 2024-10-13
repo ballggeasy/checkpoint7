@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block body %}
+<ul class="nav justify-content-center" style="padding-top: 1em;">
+  <li class="nav-item">
+    <a class="btn btn-primary" href="{{ url_for('notes_create') }}">Create</a>
+  </li>
+</ul>
+{% for note in notes %}
+<div class="card my-3">
+  <div class="card-body" >
+    
+
+<!--ภายในcardของTag-->
+
+    <h4 class="card-title">{{ note.title }}</h4>
+    
+    <div class="card-text my-3">
+      {{ note.description }}
+    </div>
+    <div class="card-footer text-muted">
+      Tags: 
+      {% for t in note.tags %}
+        <span>
+      
+            
+
+          <a href="{{ url_for('tags_view', tag_name=t.name) }}">{{ t.name }}</a>
+          <form action="{{ url_for('tags_view', tag_name=note.tags[0].name) }}" method="GET" style="display:inline;">
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+        
+        
+          <form action="{{ url_for('tags_delete', tag_id=t.id) }}" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm">TagDelte</button>
+          </form>
+
+          
+          <form action="{{ url_for('tags_delete', tag_id=t.id) }}" method="POST" style="display:inline;">
+          </form>
+        </span>
+        
+      {% endfor %}
+      <br>
+      Last update: {{ note.updated_date }}
+
+    <form style="text-align: right;" action="{{ url_for('notes_delete', note_id=note.id) }}" method="POST" style="display:inline;">
+      <button type="submit" class="btn btn-danger">DeleteNOTE</button>
+    </form>
+      
+    </div>
+    
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Tag: {{ tag_name }}{% endblock %}
+{% block body %}
+<ul class="nav justify-content-center" style="padding-top: 1em;">
+  <li class="nav-item">
+    <a class="btn btn-primary" href="{{ url_for('index') }}">Home</a>
+  </li>
+  <li class="nav-item">
+    <div class="btn btn-disagle">{{ tag_name }}</div>
+  </li>
+</ul>
+
+{% for note in notes %}
+<div class="card my-3">
+  <div class="card-body">
+    <form action="{{ url_for('notes_edit', note_id=note.id) }}" method="POST">
+      <h4 class="card-title">
+        <input type="text" name="title" value="{{ note.title }}" class="form-control" required>
+      </h4>
+      <div class="card-text my-3">
+        <textarea name="description" class="form-control"  required>{{ note.description }}</textarea>
+      </div>
+      <div class="form-group my-3">
+        <input type="text" name="tags" value="{{ note.tags | map(attribute='name') | join(', ') }}" class="form-control">
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
